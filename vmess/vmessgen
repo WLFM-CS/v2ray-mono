@@ -1,0 +1,23 @@
+#!/bin/bash
+
+prepare_variables() {
+  while getopts d:n: flag; do
+    case "${flag}" in
+    d) domain=${OPTARG} ;;
+    n) name=${OPTARG} ;;
+    *)
+      echo "usage: $0 [-d] [-n]" >&2
+      exit 1
+      ;;
+    esac
+  done
+  if [ -z "$domain" ]; then
+    domain=""
+  else
+    domain="${domain//http:\/\//}"
+    domain="${domain//https:\/\//}"
+  fi
+}
+
+prepare_variables "$@"
+/usr/local/bin/json2vmess.py --filter ws --amend port:443 --amend tls:"tls" --amend type:"" --amend scy:"auto" --amend host:"" --debug /usr/local/etc/v2ray/config.json --addr "$domain" --amend ps:"$name"

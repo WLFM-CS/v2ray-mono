@@ -1,0 +1,53 @@
+{
+  "inbounds": [
+    {
+      "tag": "inbound-s1",
+      "protocol": "vmess",
+      "port": 9010,
+      "listen": "0.0.0.0",
+      "settings": {
+        "clients": [
+          {
+            "id": "UUID_PLACEHOLDER",
+            "level": 1,
+            "alterId": 0
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "headers": {
+            "Host": "DOMAIN_PLACEHOLDER"
+          },
+          "path": "/"
+        }
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "outbound-s1",
+      "protocol": "freedom"
+    }
+  ],
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "settings": {
+      "rules": [
+        {
+          "inboundTag": [
+            "inbound-s1"
+          ],
+          "outboundTag": "outbound-s1",
+          "type": "field"
+        }
+      ]
+    }
+  },
+  "log": {
+    "access": "/var/log/v2ray/access.log",
+    "error": "/var/log/v2ray/error.log",
+    "loglevel": "warning"
+  }
+}
